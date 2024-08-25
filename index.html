@@ -10,12 +10,16 @@
             margin: 20px;
             padding: 0;
         }
-        input[type="text"], input[type="email"], input[type="text"], input[type="number"] {
+        input[type="text"], input[type="email"], input[type="number"] {
             width: 300px;
             padding: 10px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
+        }
+        input[readonly] {
+            background-color: #e9ecef;
+            cursor: not-allowed;
         }
         button {
             padding: 10px 20px;
@@ -49,7 +53,7 @@
     <input type="text" id="roll_number" placeholder="Enter your roll number"><br>
 
     <label for="json-input">Data (JSON format):</label><br>
-    <input type="text" id="json-input" placeholder='{"data":["A","B","c","1","2"]}'><br>
+    <input type="text" id="json-input" value='{"data":["A","B","c","1","2"]}' readonly><br>
 
     <button onclick="submitData()">Submit</button>
 
@@ -69,6 +73,8 @@
                 jsonData.email = email;
                 jsonData.roll_number = roll_number;
 
+                console.log('Sending JSON data:', jsonData);  // Log the data being sent
+
                 fetch('/bfhl', {
                     method: 'POST',
                     headers: {
@@ -80,9 +86,13 @@
                 .then(data => {
                     document.getElementById('response').textContent = JSON.stringify(data, null, 2);
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('response').textContent = 'Error sending data. Check the console for details.';
+                });
             } catch (error) {
                 console.error('Invalid JSON:', error);
+                document.getElementById('response').textContent = 'Invalid JSON input. Check the console for details.';
             }
         }
     </script>
