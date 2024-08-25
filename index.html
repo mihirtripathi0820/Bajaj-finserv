@@ -87,11 +87,11 @@
                     document.getElementById('response').textContent = JSON.stringify(data, null, 2);
                 })
                 .catch(error => {
-                    console.error('Error:', error);
+                    console.error('Error:', error);  // Log the error
                     document.getElementById('response').textContent = 'Error sending data. Check the console for details.';
                 });
             } catch (error) {
-                console.error('Invalid JSON:', error);
+                console.error('Invalid JSON:', error);  // Log invalid JSON errors
                 document.getElementById('response').textContent = 'Invalid JSON input. Check the console for details.';
             }
         }
